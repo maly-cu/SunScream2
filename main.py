@@ -1,11 +1,14 @@
 from kivy.lang import Builder
-from plyer import gps
+from plyer import gps, notification
 from kivy.app import App
 from kivy.properties import StringProperty
 from kivy.clock import mainthread
 from kivy.utils import platform
 from kivy.properties import ListProperty
 from kivymd.app import MDApp
+from kivy.clock import Clock
+from kivymd.uix.pickers import MDTimePicker
+import datetime
 
 kv = '''
 BoxLayout:
@@ -72,23 +75,23 @@ BoxLayout:
             halign: "center"
             color: 0, 0, 0, 1
 
-    BoxLayout:
-        size_hint: .1, .45
-        padding: "5dp"
-        pos_hint: {"center_x":0.5, "center_y":0.9}
+    # BoxLayout:
+    #     size_hint: .1, .45
+    #     padding: "5dp"
+    #     pos_hint: {"center_x":0.5, "center_y":0.9}
 
-        ToggleButton:
+    ToggleButton:
 
-            background_color: 250/255, 177/255, 109/255, 1
-            background_normal: ""
-            line_color: 250/255, 177/255, 109/255, 1
-            text_color: 1,1,1,1
+        background_color: 250/255, 177/255, 109/255, 1
+        background_normal: ""
+        line_color: 250/255, 177/255, 109/255, 1
+        text_color: 1,1,1,1
 
-            text: 'Start' if self.state == 'normal' else 'Stop'
-            
-            on_state:
-                app.start(1000, 0) if self.state == 'down' else \
-                app.stop()
+        text: 'Start' if self.state == 'normal' else 'Stop'
+        
+        on_state:
+            app.start(1000, 0) if self.state == 'down' else \
+            app.stop()
 
 # BoxLayout:
 #     orientation: 'vertical'
@@ -183,6 +186,31 @@ class GpsTest(MDApp):
     def on_resume(self):
         gps.start(1000, 0)
         pass
+
+    # ________________________ ALARM FUNCTION ___________________
+
+    # def time_picker(self):
+    #     time_dialog = MDTimePicker()
+    #     time_dialog.bind(time=self.get_time, on_save=self.schedule)
+    #     time_dialog.open()
+    #
+    # def schedule(self, *args):
+    #     Clock.schedule_once(self.alarm, 1)
+    #
+    # def alarm(self, *args):
+    #     while True:
+    #         current_time = datetime.datetime.now().strftime("%H:%M:%S")
+    #         if self.root.ids.alarm_time.text == str(current_time):
+    #             self.do_notify()
+    #             break
+    #
+    # def do_notify(self, mode='fancy'):
+    #     title = self.ids.notification_title.text
+    #     message = self.ids.notification_text.text
+    #     ticker = self.ids.ticker_text.text
+    #     app_ico = 'Images/icon.png'
+    #
+    #     notification.notify(app_icon=app_ico, title=title, message=message, ticker=ticker, timeout=10)
 
 
 if __name__ == '__main__':
