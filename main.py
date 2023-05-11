@@ -4,30 +4,120 @@ from kivy.app import App
 from kivy.properties import StringProperty
 from kivy.clock import mainthread
 from kivy.utils import platform
+from kivy.properties import ListProperty
+from kivymd.app import MDApp
 
 kv = '''
 BoxLayout:
-    orientation: 'vertical'
-    Label:
-        text: app.gps_location
-    Label:
-        text: app.gps_status
+    orientation: "vertical"
+    padding: "5dp"
+    size_hint: 1, .45
+    pos_hint: {'top': 1}
+    spacing: "10dp"
+    
+    AnchorLayout:
+
+        # position of Anchor Layout
+        anchor_x: 'right'
+        anchor_y: 'top'
+
+        # size layout
+        size_hint: 1, 0.2
+
+        MDRectangleFlatIconButton:
+            text: "Back   "
+
+            md_bg_color: 250/255, 177/255, 109/255, 1
+            line_color: 250/255, 177/255, 109/255, 1
+            text_color: 1,1,1,1
+
+            on_release:
+                app.root.current = "home"
+                root.manager.transition.direction = "right"
+                
+
+    AnchorLayout:
+        # position of Anchor Layout
+        anchor_x: 'center'
+        anchor_y: 'top'
+        
+        size_hint: None, None
+        size: "150dp", "150dp"
+        pos_hint: {'center_x': .5, 'center_y': .5, 'top': 1}
+
+        canvas.before:
+            Color:
+                rgba: app.bar_color + [0.3]
+            Line:
+                width: app.bar_width
+                ellipse: (self.x, self.y, self.width, self.height,0,360)
+
+        canvas.after:
+            Color:
+                rgb: app.bar_color
+            Line:
+                width: app.bar_width
+                ellipse: (self.x, self.y, self.width, self.height, 0, app.set_temp*6)
+
+                # set to celcius (freezing - 0 to boiling - 100). Since circle is 360 degrees,
+                # multiply by 3.6 i.e. 360/100 for a range of 100 but since highest temp ever recorded is 51,
+                # set my max at 360/60 so multiply by 6
+
+        Label:
+            text: app.temp_text
+
+            markup: True
+            font_size: "22dp"
+            pos_hint: {"center_x":0.5, "center_y":0.5}
+            halign: "center"
+            color: 0, 0, 0, 1
+
     BoxLayout:
-        size_hint_y: None
-        height: '48dp'
-        padding: '4dp'
+        size_hint: .1, .45
+        padding: "5dp"
+        pos_hint: {"center_x":0.5, "center_y":0.9}
+
         ToggleButton:
+
+            background_color: 250/255, 177/255, 109/255, 1
+            background_normal: ""
+            line_color: 250/255, 177/255, 109/255, 1
+            text_color: 1,1,1,1
+
             text: 'Start' if self.state == 'normal' else 'Stop'
+            
             on_state:
                 app.start(1000, 0) if self.state == 'down' else \
                 app.stop()
+
+# BoxLayout:
+#     orientation: 'vertical'
+#     Label:
+#         text: app.gps_location
+#     Label:
+#         text: app.gps_status
+#     BoxLayout:
+#         size_hint_y: None
+#         height: '48dp'
+#         padding: '4dp'
+#         ToggleButton:
+#             text: 'Start' if self.state == 'normal' else 'Stop'
+#             on_state:
+#                 app.start(1000, 0) if self.state == 'down' else \
+#                 app.stop()
 '''
 
 
-class GpsTest(App):
+class GpsTest(MDApp):
 
     gps_location = StringProperty()
     gps_status = StringProperty('Click Start to get GPS location updates')
+    set_temp = 32
+    uvi = 0
+
+    temp_text = f"[b]{set_temp}°C[/b]\n[size=12dp]Location: {gps_location}[/size]\n[size=12dp]Status: {gps_status}[/size]"  # edit text with diff sizes in same label
+    bar_width = 10
+    bar_color = ListProperty([1, 1, 0])
 
     def request_android_permissions(self):
         """
