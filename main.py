@@ -73,10 +73,12 @@ class GpsTest(MDApp):
 
     gps_location = StringProperty()
     gps_status = StringProperty('Click Start to get GPS location updates')
+
     set_temp = 32
     uvi = 0
 
-    temp_text = f"[b]{set_temp}°C[/b]\n[size=12dp]Location: {gps_location}[/size]\n[size=12dp]Status: {gps_status}[/size]"  # edit text with diff sizes in same label
+    temp_text = f"[b]{set_temp}°C[/b]\n[size=12dp]Location: {gps_location}[/size]\n" \
+                f"[size=12dp]Status: {gps_status}[/size]"  # edit text with diff sizes in same label
     bar_width = 10
     bar_color = ListProperty([1, 1, 0])
 
@@ -130,12 +132,17 @@ class GpsTest(MDApp):
 
     @mainthread
     def on_location(self, **kwargs):
-        self.gps_location = '\n'.join([
+        # self.gps_location = '\n'.join([
+        #     '{}={}'.format(k, v) for k, v in kwargs.items()])
+        global gps_location
+        gps_location = '\n'.join([
             '{}={}'.format(k, v) for k, v in kwargs.items()])
 
     @mainthread
     def on_status(self, stype, status):
-        self.gps_status = 'type={}\n{}'.format(stype, status)
+        # self.gps_status = 'type={}\n{}'.format(stype, status)
+        global gps_status
+        gps_status = 'type={}\n{}'.format(stype, status)
 
     def on_pause(self):
         gps.stop()
