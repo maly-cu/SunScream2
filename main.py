@@ -7,34 +7,16 @@ from kivy.utils import platform
 from kivy.properties import ListProperty
 from kivymd.app import MDApp
 
+" _______ TODAY, REVERT TO OLD GPS KV FILE AND ADD THE PLYER NOTIFICATION EXAMPLE IF THEY BOTH WORK, ADD TIMER FUNCTION _______"
+
+
 kv = '''
 BoxLayout:
     orientation: "vertical"
     padding: "5dp"
     size_hint: 1, .45
     pos_hint: {'top': 1}
-    spacing: "10dp"
-    
-    AnchorLayout:
-
-        # position of Anchor Layout
-        anchor_x: 'right'
-        anchor_y: 'top'
-
-        # size layout
-        size_hint: 1, 0.2
-
-        MDRectangleFlatIconButton:
-            text: "Back   "
-
-            md_bg_color: 250/255, 177/255, 109/255, 1
-            line_color: 250/255, 177/255, 109/255, 1
-            text_color: 1,1,1,1
-
-            on_release:
-                app.root.current = "home"
-                root.manager.transition.direction = "right"
-                
+    spacing: "10dp"                
 
     AnchorLayout:
         # position of Anchor Layout
@@ -71,11 +53,6 @@ BoxLayout:
             pos_hint: {"center_x":0.5, "center_y":0.5}
             halign: "center"
             color: 0, 0, 0, 1
-
-    # BoxLayout:
-    #     size_hint: .1, .45
-    #     padding: "5dp"
-    #     pos_hint: {"center_x":0.5, "center_y":0.9}
 
     ToggleButton:
 
