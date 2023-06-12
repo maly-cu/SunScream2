@@ -12,20 +12,20 @@ from kivymd.app import MDApp
 
 kv = '''
 BoxLayout:
-     orientation: 'vertical'
-     Label:
-         text: app.gps_location
-     Label:
-         text: app.gps_status
-     BoxLayout:
-         size_hint_y: None
-         height: '48dp'
-         padding: '4dp'
-         ToggleButton:
-             text: 'Start' if self.state == 'normal' else 'Stop'
-             on_state:
-                 app.start(1000, 0) if self.state == 'down' else \
-                 app.stop()
+    orientation: 'vertical'
+    Label:
+        text: app.gps_location
+    Label:
+        text: app.gps_status
+    BoxLayout:
+        size_hint_y: None
+        height: '48dp'
+        padding: '4dp'
+        ToggleButton:
+            text: 'Start' if self.state == 'normal' else 'Stop'
+        on_state:
+            app.start(1000, 0) if self.state == 'down' else \
+            app.stop()
 
 '''
 
