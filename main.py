@@ -23,9 +23,9 @@ BoxLayout:
         padding: '4dp'
         ToggleButton:
             text: 'Start' if self.state == 'normal' else 'Stop'
-        on_state:
-            app.start(1000, 0) if self.state == 'down' else \
-            app.stop() 
+            on_state:
+                app.start(1000, 0) if self.state == 'down' else \
+                app.stop() 
 
 '''
 
